@@ -5,10 +5,8 @@ pipeline {
         string(name: 'vpc_cidr', defaultValue: '10.100.0.0/16', description: '')
         string(name: 'private_subnet1_cidr', defaultValue: '10.100.1.0/24', description: '')
         string(name: 'private_subnet2_cidr', defaultValue: '10.100.2.0/24', description: '')
-        //string(name: 'private_subnet3_cidr', defaultValue: '', description: '') // descomentar esta línea para desplegar una subred privada en la tercera zona de disponibilidad
         string(name: 'public_subnet1_cidr', defaultValue: '10.100.3.0/24', description: '')
         string(name: 'public_subnet2_cidr', defaultValue: '10.100.4.0/24', description: '')
-        // string(name: 'public_subnet3_cidr', defaultValue: '', description: '') // descomentar esta línea para desplegar una subred pública en la tercera zona de disponibilidad
         booleanParam(name: 'autoApprove', defaultValue: false, description: '')
         booleanParam(name: 'destroy', defaultValue: false, description: '')
     }
@@ -84,7 +82,6 @@ pipeline {
         }
         
         stage('terraform apply with parameters') {
-            
             when { 
                 allOf {
                      expression { params.destroy != true } 
@@ -110,9 +107,8 @@ pipeline {
 
             steps{
                 withAWS(credentials: 'mfq-aws-creds', region: 'eu-west-1') {
-                            sh 'terraform apply --auto-approve'
-                        }
-                
+                     sh 'terraform apply --auto-approve'
+                }                
             }
         }
 
@@ -125,8 +121,7 @@ pipeline {
             }
             
         }
-    }
-    
+    }    
 }
 
 
